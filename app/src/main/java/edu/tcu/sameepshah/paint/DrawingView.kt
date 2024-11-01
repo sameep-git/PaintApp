@@ -47,11 +47,23 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs) {
 
     // Define a method setPathColor(color: Int)
     fun setPathColor(color: Int) {
-        val newCustomPath = CustomPath(color, 10 * resources.displayMetrics.density)
+        val newCustomPath = CustomPath(color, path.width)
         path = newCustomPath
     }
 
     // Define a method setPathWidth(width: Int)
+    fun setPathWidth(width: Int) {
+        val newCustomPath = CustomPath(path.color, width * resources.displayMetrics.density)
+        path = newCustomPath
+    }
+
+    fun undoPath(){
+        if (pathList.size > 0) {
+            val lastPath = pathList.removeLast()
+            lastPath.reset()
+            invalidate()
+        }
+    }
 
     override fun onDraw(canvas: Canvas) {
         for(path in pathList) {

@@ -1,5 +1,6 @@
 package edu.tcu.sameepshah.paint
 
+import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.ImageView
@@ -22,6 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         val drawingView = findViewById<DrawingView>(R.id.drawing_view)
         setUpPallet(drawingView)
+        setUpPathWidthSelector(drawingView)
+        findViewById<ImageView>(R.id.reverse_tool).setOnClickListener {
+            drawingView.undoPath()
+        }
     }
 
     private fun setUpPallet(drawingView: DrawingView) {
@@ -53,6 +58,26 @@ class MainActivity : AppCompatActivity() {
                         view.setImageResource((R.drawable.path_color_normal))
                     }
                 }
+            }
+        }
+    }
+
+    private fun setUpPathWidthSelector(drawingView: DrawingView) {
+        val dialog = Dialog(this)
+        findViewById<ImageView>(R.id.width_tool).setOnClickListener {
+            dialog.setContentView(R.layout.path_width_selector)
+            dialog.show()
+            dialog.findViewById<ImageView>(R.id.width1).setOnClickListener {
+                drawingView.setPathWidth(10)
+                dialog.dismiss()
+            }
+            dialog.findViewById<ImageView>(R.id.width2).setOnClickListener {
+                drawingView.setPathWidth(6)
+                dialog.dismiss()
+            }
+            dialog.findViewById<ImageView>(R.id.width3).setOnClickListener {
+                drawingView.setPathWidth(3)
+                dialog.dismiss()
             }
         }
     }

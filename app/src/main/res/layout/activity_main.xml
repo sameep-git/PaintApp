@@ -10,7 +10,10 @@
     <FrameLayout
         android:id="@+id/drawing_fl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/pallet_ll"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <edu.tcu.sameepshah.paint.DrawingView
             android:id="@+id/drawing_view"
@@ -18,4 +21,129 @@
             android:layout_height="match_parent"/>
 
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pallet_ll"
+        app:layout_constraintBottom_toTopOf="@id/icons"
+        app:layout_constraintTop_toBottomOf="@id/drawing_fl"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:contentDescription="@string/black_color"
+            tools:ignore="ImageContrastCheck"
+            android:id="@+id/black_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/path_color_normal"
+            android:background="@color/black"
+            />
+
+        <ImageView
+            android:contentDescription="@string/red_color"
+            tools:ignore="ImageContrastCheck"
+            android:id="@+id/red_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/path_color_normal"
+            android:background="@color/red"
+            />
+
+        <ImageView
+            android:contentDescription="@string/green_color"
+            tools:ignore="ImageContrastCheck"
+            android:id="@+id/green_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/path_color_normal"
+            android:background="@color/green"
+            />
+
+        <ImageView
+            android:contentDescription="@string/blue_color"
+            tools:ignore="ImageContrastCheck"
+            android:id="@+id/blue_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/path_color_normal"
+            android:background="@color/blue"
+            />
+
+        <ImageView
+            android:contentDescription="@string/purple_color"
+            tools:ignore="ImageContrastCheck"
+            android:id="@+id/purple_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/path_color_normal"
+            android:background="@color/tcu_purple"
+            />
+
+        <ImageView
+            android:contentDescription="@string/eraser"
+            tools:ignore="ImageContrastCheck"
+            android:id="@+id/offwhite_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/path_color_normal"
+            android:background="@color/off_white"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/icons"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pallet_ll"
+        android:gravity="center_horizontal"
+        >
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:id="@+id/width_tool"
+            android:src="@drawable/ic_brush"
+            android:background="@color/light_gray"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:id="@+id/image_tool"
+            android:src="@drawable/ic_gallery"
+            android:background="@color/light_gray"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:id="@+id/reverse_tool"
+            android:src="@drawable/ic_undo"
+            android:background="@color/light_gray"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:id="@+id/save_tool"
+            android:src="@drawable/ic_save"
+            android:background="@color/light_gray"
+            />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

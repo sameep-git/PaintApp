@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Paint</string>
+    <string name="black_color">Black Color</string>
+    <string name="red_color">Red color</string>
+    <string name="green_color">Green color</string>
+    <string name="blue_color">Blue color</string>
+    <string name="purple_color">Purple color</string>
+    <string name="eraser">Eraser</string>
 </resources>

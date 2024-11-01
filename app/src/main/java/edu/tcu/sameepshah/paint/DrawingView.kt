@@ -45,6 +45,14 @@ class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs) {
         return true
     }
 
+    // Define a method setPathColor(color: Int)
+    fun setPathColor(color: Int) {
+        val newCustomPath = CustomPath(color, 10 * resources.displayMetrics.density)
+        path = newCustomPath
+    }
+
+    // Define a method setPathWidth(width: Int)
+
     override fun onDraw(canvas: Canvas) {
         for(path in pathList) {
            paint.color = path.color

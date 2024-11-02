@@ -44,11 +44,6 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.offwhite_color)
         )
         for (colorView in colorsList) {
-            if ((colorView.background as ColorDrawable).color == R.color.black) {
-                colorView.setImageResource(R.drawable.path_color_selected)
-            } else {
-                colorView.setImageResource(R.drawable.path_color_normal)
-            }
             colorView.setOnClickListener {
                 for (view in colorsList) {
                     if (view == colorView) {

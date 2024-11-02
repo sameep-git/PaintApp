@@ -6,4 +6,11 @@
     <string name="blue_color">Blue color</string>
     <string name="purple_color">Purple color</string>
     <string name="eraser">Eraser</string>
+    <string name="thick_width">Thick width</string>
+    <string name="medium_width">Medium Width</string>
+    <string name="thin_width">Thin Width</string>
+    <string name="width_selector">Width Selector</string>
+    <string name="photo_uploader">Photo Uploader</string>
+    <string name="undo">Undo</string>
+    <string name="save_image">Save Image</string>
 </resources>

@@ -5,11 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/width1"
+        android:id="@+id/width3"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@color/light_gray"
-        android:src="@drawable/path_width"
+        android:contentDescription="@string/thin_width"
+        android:src="@drawable/path_width_10"
         android:layout_margin="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +23,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@color/light_gray"
+        android:contentDescription="@string/medium_width"
         android:src="@drawable/path_width_5"
         android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/width1"
@@ -31,11 +33,12 @@
         />
 
     <ImageView
-        android:id="@+id/width3"
+        android:id="@+id/width1"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@color/light_gray"
-        android:src="@drawable/path_width_10"
+        android:contentDescription="@string/thick_width"
+        android:src="@drawable/path_width"
         android:layout_margin="10dp"
         app:layout_constraintTop_toBottomOf="@id/width2"
         app:layout_constraintStart_toStartOf="parent"

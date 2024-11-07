@@ -1,13 +1,23 @@
 package edu.tcu.sameepshah.paint
 
 import android.app.Dialog
+import android.content.ContentValues
+import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
+import android.media.Image
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.drawToBitmap
+import com.bumptech.glide.Glide
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +34,12 @@ class MainActivity : AppCompatActivity() {
         val drawingView = findViewById<DrawingView>(R.id.drawing_view)
         setUpPallet(drawingView)
         setUpPathWidthSelector(drawingView)
+        val backgroundIv = findViewById<ImageView>(R.id.background_iv)
+
+        setUpBackgroundPicker(backgroundIv)
+
+//        setUpSave()
+
         findViewById<ImageView>(R.id.reverse_tool).setOnClickListener {
             drawingView.undoPath()
         }
@@ -63,18 +79,43 @@ class MainActivity : AppCompatActivity() {
             dialog.setContentView(R.layout.path_width_selector)
             dialog.show()
             dialog.findViewById<ImageView>(R.id.width1).setOnClickListener {
-                drawingView.setPathWidth(10)
+                drawingView.setPathWidth(15)
                 dialog.dismiss()
             }
             dialog.findViewById<ImageView>(R.id.width2).setOnClickListener {
-                drawingView.setPathWidth(6)
+                drawingView.setPathWidth(10)
                 dialog.dismiss()
             }
             dialog.findViewById<ImageView>(R.id.width3).setOnClickListener {
-                drawingView.setPathWidth(3)
+                drawingView.setPathWidth(6)
                 dialog.dismiss()
             }
         }
+    }
+
+    private fun setUpBackgroundPicker(backgroundIv: ImageView) {
+        val pickMedia = registerForActivityResult(PickVisualMedia()) { // it is URI
+            it?.let {Glide.with(this).load(it).into(backgroundIv)}
+        }
+        // Use a listener to launch the sheet
+        findViewById<ImageView>(R.id.image_tool).setOnClickListener {
+            pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+        }
+    }
+
+    private fun setUpSave() {
+        val bitmap = findViewById<FrameLayout>(R.id.drawing_fl).drawToBitmap()
+
+        val values = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis().toString().substring(2, 11) + ".jpeg")
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM)
+        }
+
+        contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)?.let{
+            contentResolver.openOutputStream(it).use { image ->
+            image?.let { bitmap.compress(Bitmap.CompressFormat.JPEG, 90, image) }
+        }}
     }
 }
 

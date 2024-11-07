@@ -13,7 +13,7 @@ import android.view.View
 class DrawingView(context: Context, attrs: AttributeSet): View(context, attrs) {
     private val paint = Paint()
     private val pathList = mutableListOf<CustomPath>()
-    private var path = CustomPath(Color.BLACK, 10 * resources.displayMetrics.density)
+    private var path = CustomPath(Color.BLACK, 15 * resources.displayMetrics.density)
 
     init {
         paint.style = Paint.Style.STROKE

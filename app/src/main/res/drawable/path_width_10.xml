@@ -7,7 +7,7 @@
 
     <!-- Outer transparent stroke to create padding effect -->
     <stroke
-        android:width="20dp"
+        android:width="25dp"
         android:color="@android:color/transparent"/>
 
 </shape>

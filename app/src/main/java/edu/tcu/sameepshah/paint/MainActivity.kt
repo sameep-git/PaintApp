@@ -129,7 +129,6 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
                 val shareIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
-                    // Example: content://com.google.android.apps.photos.contentprovider/...
                     putExtra(Intent.EXTRA_STREAM, uri)
                     type = "image/jpeg"
                 }

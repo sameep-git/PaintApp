@@ -2,9 +2,9 @@ package edu.tcu.sameepshah.paint
 
 import android.app.Dialog
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
-import android.media.Image
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -17,7 +17,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.drawToBitmap
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         setUpBackgroundPicker(backgroundIv)
 
-//        setUpSave()
+        findViewById<ImageView>(R.id.save_tool).setOnClickListener {setUpSave()}
 
         findViewById<ImageView>(R.id.reverse_tool).setOnClickListener {
             drawingView.undoPath()
@@ -104,18 +108,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpSave() {
-        val bitmap = findViewById<FrameLayout>(R.id.drawing_fl).drawToBitmap()
-
-        val values = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis().toString().substring(2, 11) + ".jpeg")
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM)
+        val dialog = showInProgress()
+        lifecycleScope.launch(Dispatchers.IO) {
+//            delay(5000)
+            val bitmap = findViewById<FrameLayout>(R.id.drawing_fl).drawToBitmap()
+            val values = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis().toString().substring(2, 11) + ".jpeg")
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM)
+            }
+            val uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            lifecycleScope.launch(Dispatchers.IO) {
+                uri?.let{
+                    contentResolver.openOutputStream(it).use { image ->
+                        image?.let { bitmap.compress(Bitmap.CompressFormat.JPEG, 90, image) }
+                    }
+                }
+            }
+            withContext(Dispatchers.Main) {
+                dialog.dismiss()
+                val shareIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    // Example: content://com.google.android.apps.photos.contentprovider/...
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    type = "image/jpeg"
+                }
+                startActivity(Intent.createChooser(shareIntent, null))
+            }
         }
+    }
 
-        contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)?.let{
-            contentResolver.openOutputStream(it).use { image ->
-            image?.let { bitmap.compress(Bitmap.CompressFormat.JPEG, 90, image) }
-        }}
+    private fun showInProgress(): Dialog {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.in_progress)
+        dialog.setCancelable(false)
+        dialog.show()
+        return dialog
     }
 }
 
